@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetc15s.dao.StudentMapper">
+    <resultMap id="BaseResultMap" type="Student" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="CHAR" />
+        <result column="birthday" property="birthday" jdbcType="DATE" />
+        <result column="score" property="score" jdbcType="DECIMAL" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        <if test="fields == null" >
+            id, name, gender, birthday, score
+        </if>
+        <if test="fields != null" >
+            ${fields}
+        </if>
+    </sql>
+    <insert id="saveStudent" parameterType="Student" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO stu(name, gender, birthday, score)
+        VALUES (#{name},
+                #{gender},
+                #{birthday},
+                #{score})
+    </insert>
+
+    <update id="updateStudent" parameterType="Student">
+        UPDATE stu
+        SET name=#{name},
+            gender=#{gender},
+            birthday=#{birthday},
+            score=#{score}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE
+        FROM stu
+        WHERE id = #{id}
+    </delete>
+
+    <select id="findById" parameterType="int" resultType="Student">
+        SELECT s.id id, s.name name, s.gender gender, s.birthday birthday, s.score score
+        FROM stu s
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByParam" parameterType="java.util.HashMap" resultType="Student">
+        SELECT s.id id, s.name name, s.gender gender, s.birthday birthday, s.score score
+        FROM stu s
+        WHERE 1 = 1
+        <if test="id != null and id != ''">
+            and s.id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and s.name = #{name}
+        </if>
+        <if test="gender != null and gender != ''">
+            and s.gender = #{gender}
+        </if>
+        <if test="birthday != null">
+            and s.birthday = #{birthday}
+        </if>
+        <if test="score != null">
+            and s.score = #{score}
+        </if>
+    </select>
+
+    <select id="findAll" resultType="java.util.HashMap">
+        SELECT s.id id, s.name name, s.gender gender, s.birthday birthday, s.score score
+        FROM stu s
+    </select>
+</mapper>

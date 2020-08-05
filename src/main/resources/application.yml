@@ -1,0 +1,154 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  profiles: DEV
+    ## 激活生产环境
+#    active: PROD
+  ## 激活开发环境
+#    active: DEV
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://192.168.249.128:3307/db1?useSSL=false&useUnicode=true&characterEncoding=utf8
+    type: com.zaxxer.hikari.HikariDataSource
+    ##  Hikari 连接池配置 ------ 详细配置请访问：https://github.com/brettwooldridge/HikariCP
+    hikari:
+      ## 最小空闲连接数量
+      minimum-idle: 5
+      ## 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 180000
+      ## 连接池最大连接数，默认是10
+      maximum-pool-size: 10
+      ## 此属性控制从池返回的连接的默认自动提交行为,默认值：true
+      auto-commit: true
+      ## 连接池母子
+      pool-name: MyHikariCP
+      ## 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+      ## 数据库连接超时时间,默认30秒，即30000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+      schema:
+       - classpath:sql/stu.sql
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.249.128
+    port: 6379
+  rabbitmq:
+    host: 192.168.249.128
+    username: admin
+    password: admin
+    port: 5672
+
+mybatis:
+  typeAliasesPackage: com.cets15s.pojo
+  mapperLocations: classpath:mybatis/mapper/*.xml
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: "true"
+  support-methods-arguments: "true"
+  params: "count=countSql"
+
+
+person:
+  name: bj
+  age: 3
+  index: 2
+
+---
+##yml文档块
+#server:
+#  #Tomcat
+#  tomcat:
+#    uri-encoding: utf-8
+#    threads:
+#      max: 1000
+#      min-spare: 30
+#  port: 8081
+###指定系统测试环境
+#spring:
+#  profiles: PROD
+#  ## 激活生产环境
+#  #    active: PROD
+#  ## 激活开发环境
+#  #    active: DEV
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    ## druid连接池配置
+#    druid:
+#      username: root
+#      password: 123456
+#      url: jdbc:mysql://192.168.249.128:3307/db1?useSSL=false&useUnicode=true&characterEncoding=utf8
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      ## 初始化时建立物理连接的个数
+#      initial-size: 5
+#      ## 最小连接数量
+#      minIdle: 5
+#      ## 连接池最大连接数，默认是10
+#      maxActive: 10
+#      #空闲连接的检查时间间隔，检测需要关闭的空闲连接，单位是毫秒
+#      timeBetweenEvictionRunsMillis: 60000
+#      ## 一个连接在池中最小生存的时间，单位是毫秒
+#      min-evictable-idle-time-millis: 1800000
+#      ## 数据库连接超时时间,默认30秒，即30000
+#      maxWait: 180000
+#      ## 用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+#      validation-query: SELECT 'X'
+#      ## 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+#      filters: stat,wall,log4j,config
+#      ## 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+#      test-while-idle: true
+#      ## 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能、
+#      test-on-borrow: false
+#      ## 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+#      test-on-return: false
+#      ## 是否缓存preparedStatement，也就是PSCache
+#      pool-prepared-statements: true
+#      ## 要启用PSCache，必须配置大于0
+#      max-open-prepared-statements: 50
+#      max-pool-prepared-statement-per-connection-size: 20
+#      use-global-data-source-stat: true
+#      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#      #Druid StatViewServlet配置
+#      stat-view-servlet:
+#        enabled: true
+#        url-pattern: /druid/*
+#        reset-enable: true
+#        login-username: admin
+#        login-password: 123456
+#      # 配置日志输出
+#      filter:
+#        slf4j:
+#          enabled: true
+#          statement-create-after-log-enabled: false
+#          statement-close-after-log-enabled: false
+#          result-set-open-after-log-enabled: false
+#          result-set-close-after-log-enabled: false
+#
+#mybatis:
+#  typeAliasesPackage: com.cets15s.pojo
+#  mapperLocations: classpath:mybatis/mapper/*.xml
+#  configLocation: classpath:mybatis/mybatis-config.xml
+#
+#pagehelper:
+#  helperDialect: mysql
+#  reasonable: "true"
+#  support-methods-arguments: "true"
+#  params: "count=countSql"
+#
+#person:
+#  name: bj
+#  age: 3
+#  index: 2
